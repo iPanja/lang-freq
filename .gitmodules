@@ -1,0 +1,3 @@
+[submodule "spanish_data"]
+	path = spanish_data
+	url = https://github.com/doozan/spanish_data
