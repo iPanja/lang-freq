@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f3ed">
+  <title>Story Vocabulary</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Story Vocabulary home"><span class="brand-mark">ƒ</span> story vocabulary</a>
+    <span class="local-label"><span class="live-dot"></span> Local library</span>
+  </header>
+
+  <main>
+    <section class="intro">
+      <p class="eyebrow">READING COMPANION</p>
+      <h1>Find the words<br><em>worth learning.</em></h1>
+      <p class="intro-copy">Explore the vocabulary in your story, see how it is used, and gather the context you need to understand it.</p>
+    </section>
+
+    <section class="workspace" aria-label="Vocabulary browser">
+      <div class="list-pane">
+        <div class="list-heading">
+          <div><p class="eyebrow">YOUR STORY</p><h2>Vocabulary <span id="total-count" class="count-badge">…</span></h2></div>
+        </div>
+        <label class="search-box"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search a word or form…" autocomplete="off"><kbd>/</kbd></label>
+        <div class="filters">
+          <label class="select-wrap"><span class="sr-only">Filter by part of speech</span><select id="pos-filter"><option value="">All word types</option></select></label>
+          <label class="saved-wrap"><span class="sr-only">Show saved words</span><select id="saved-filter"><option value="all">All words</option><option value="saved">Saved words</option></select></label>
+          <label class="sort-wrap"><span class="sr-only">Sort vocabulary</span><select id="sort"><option value="rank">Frequency rank</option><option value="count">Story frequency</option><option value="alpha">Alphabetical</option></select></label>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">WORD</th><th scope="col">TYPE</th><th scope="col" class="numeric">IN STORY</th><th scope="col" aria-label="Save"></th></tr></thead>
+          <tbody id="vocab-rows"><tr><td colspan="4" class="loading">Loading local vocabulary…</td></tr></tbody>
+          </table>
+        </div>
+        <div class="list-footer"><span id="visible-count">Loading entries…</span><span>Sorted by <b>story frequency rank</b></span></div>
+      </div>
+
+      <aside class="detail-pane" id="detail-pane" aria-live="polite">
+        <div class="empty-state">
+          <div class="empty-illustration"><span>¿</span><i>✳</i><b>á</b></div>
+          <p class="eyebrow">A CLOSER LOOK</p>
+          <h2>Choose a word<br>to begin.</h2>
+          <p>Select an entry to see its forms, dictionary meanings, broader frequency, and examples in context.</p>
+          <div class="data-note"><span>✳</span><div><b>Grounded in your local data</b><br>Story counts, Spanish dictionary data, and bilingual examples.</div></div>
+        </div>
+      </aside>
+    </section>
+    <footer class="source-note">Story vocabulary and optional book excerpts are read locally. Dictionary and community sentence data come from <code>spanish_data</code>.</footer>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
