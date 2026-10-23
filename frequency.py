@@ -35,11 +35,15 @@ class TextExtractor(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.skip_depth = 0
         self.parts: list[str] = []
+        self.heading_depth = 0
+        self.heading_parts: list[str] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         tag = tag.lower()
         if tag in SKIP_TAGS:
             self.skip_depth += 1
+        elif not self.skip_depth and tag in {"h1", "h2"}:
+            self.heading_depth += 1
         elif not self.skip_depth and tag in BLOCK_TAGS:
             self.parts.append("\n")
 
@@ -47,12 +51,20 @@ class TextExtractor(HTMLParser):
         tag = tag.lower()
         if tag in SKIP_TAGS and self.skip_depth:
             self.skip_depth -= 1
+        elif not self.skip_depth and tag in {"h1", "h2"} and self.heading_depth:
+            self.heading_depth -= 1
         elif not self.skip_depth and tag in BLOCK_TAGS:
             self.parts.append("\n")
 
     def handle_data(self, data: str) -> None:
         if not self.skip_depth:
             self.parts.append(data)
+            if self.heading_depth:
+                self.heading_parts.append(data)
+
+    @property
+    def heading(self) -> str:
+        return re.sub(r"\s+", " ", " ".join(self.heading_parts)).strip()
 
 
 def extract_epub_documents(path: Path):
@@ -64,14 +76,14 @@ def extract_epub_documents(path: Path):
                     continue
                 parser = TextExtractor()
                 parser.feed(book.read(name).decode("utf-8", errors="replace"))
-                yield name, "".join(parser.parts)
+                yield name, "".join(parser.parts), parser.heading
     except (OSError, zipfile.BadZipFile) as exc:
         raise ValueError(f"cannot read EPUB {path}: {exc}") from exc
 
 
 def extract_epub(path: Path) -> str:
     """Extract EPUB text in a single string, preserving the old helper API."""
-    return "\n".join(text for _, text in extract_epub_documents(path))
+    return "\n".join(text for _, text, _ in extract_epub_documents(path))
 
 
 def iter_sentences(text: str):
@@ -124,7 +136,7 @@ def main() -> int:
     try:
         lemmas = read_lemmas(args.forms) if args.forms else {}
         for path in args.epub:
-            for section, text in extract_epub_documents(path):
+            for section, text, chapter in extract_epub_documents(path):
                 counts.update(m.group(0).lower() for m in TOKEN_RE.finditer(text))
                 if args.examples_output:
                     for sentence in iter_sentences(text):
@@ -141,6 +153,7 @@ def main() -> int:
                                 "text": sentence,
                                 "matched_forms": sorted(forms),
                                 "section": section,
+                                "chapter": chapter or Path(section).stem,
                                 "source": path.name,
                             })
                             example_seen[family].add(sentence)

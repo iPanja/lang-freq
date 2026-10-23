@@ -18,11 +18,12 @@ as its own family. Forms missing from the table also remain as their own
 families.
 
 The dictionary data can contain multiple lemma/POS candidates for one spelling.
-The script lists each candidate as a separate family because the EPUB text
-alone cannot determine which meaning was intended; in such cases the same
-occurrence contributes to each candidate. Review those rows when making cards.
-This is a lexicon lookup, not contextual morphological analysis, so coverage
-and ambiguity depend on the supplied data.
+The browser groups the same headword across parts of speech and counts each
+observed spelling once. When a spelling has multiple lemma candidates, the
+general frequency list is used as a likely-analysis prior; ties or missing
+evidence stay under the spelling itself with the candidate analyses shown for
+review. Corpus frequency is not contextual disambiguation, so check the story
+sentence before relying on an analysis.
 
 The recommended mapping file comes from
 [doozan/spanish_data](https://github.com/doozan/spanish_data), whose README
@@ -47,12 +48,16 @@ For another vocabulary list, pass `--vocab path/to/other.csv`. To use a
 sidecar with a different name or location, also pass
 `--examples path/to/examples.json`.
 Use **Copy fields** to copy the headword, part of speech, story count, and
-observed forms. Save a word with the star to build a browser-local study list;
-use the **Saved words** filter to revisit it. Bookmarks are stored in this
-browser's local storage. Press `/` to focus search and `Esc` to clear it. The
-app uses only Python's standard library and serves data from the local
-checkout.
+observed forms. Save a word with the star, or mark it Learning/Known. These
+markers and the known-word story coverage estimate are stored in this
+browser's local storage. The **Needs review** filter shows entries with
+alternative analyses. Press `/` to focus search and `Esc` to clear it. The app
+supports ↑/↓ to move through the visible list, Enter to open the selected
+entry, K/L/U to set Known/Learning/clear status, S to save, and C to copy its
+fields. These shortcuts are inactive while typing in a field. The app uses
+only Python's standard library and serves data from the local checkout.
 
 The sentence sidecar is optional and contains at most five distinct excerpts
-per lemma/POS entry. It only includes snippets matched during frequency-list
-generation; it does not contain the full EPUB text.
+per lemma/POS entry, including the EPUB section heading when available. It only
+includes snippets matched during frequency-list generation; it does not
+contain the full EPUB text.

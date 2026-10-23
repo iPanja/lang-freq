@@ -15,8 +15,7 @@
 
   <main>
     <section class="intro">
-      <p class="eyebrow">READING COMPANION</p>
-      <h1>Find the words<br><em>worth learning.</em></h1>
+      <div class="intro-heading"><p class="eyebrow">READING COMPANION</p><h1>Find the words <em>worth learning.</em></h1></div>
       <p class="intro-copy">Explore the vocabulary in your story, see how it is used, and gather the context you need to understand it.</p>
     </section>
 
@@ -25,12 +24,18 @@
         <div class="list-heading">
           <div><p class="eyebrow">YOUR STORY</p><h2>Vocabulary <span id="total-count" class="count-badge">…</span></h2></div>
         </div>
-        <label class="search-box"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search a word or form…" autocomplete="off"><kbd>/</kbd></label>
+        <div class="readiness" aria-live="polite">
+          <div class="readiness-top"><span>KNOWN WORD COVERAGE</span><b id="readiness-percent">0%</b></div>
+          <div class="progress-track"><div id="readiness-bar" class="progress-fill"></div></div>
+          <div id="readiness-summary" class="readiness-summary">Mark words Known to estimate story readiness.</div>
+        </div>
+        <label class="search-box"><span class="search-icon" aria-hidden="true"></span><input id="search" type="search" placeholder="Search a word or form…" autocomplete="off"><kbd>/</kbd></label>
         <div class="filters">
           <label class="select-wrap"><span class="sr-only">Filter by part of speech</span><select id="pos-filter"><option value="">All word types</option></select></label>
-          <label class="saved-wrap"><span class="sr-only">Show saved words</span><select id="saved-filter"><option value="all">All words</option><option value="saved">Saved words</option></select></label>
+          <label class="saved-wrap"><span class="sr-only">Filter words by learning state</span><select id="study-filter"><option value="all">All words</option><option value="saved">Saved words</option><option value="learning">Learning</option><option value="known">Known</option><option value="review">Needs review</option></select></label>
           <label class="sort-wrap"><span class="sr-only">Sort vocabulary</span><select id="sort"><option value="rank">Frequency rank</option><option value="count">Story frequency</option><option value="alpha">Alphabetical</option></select></label>
         </div>
+        <div class="keyboard-hint" aria-label="Keyboard shortcuts"><span>Keyboard shortcuts</span><kbd>↑</kbd><kbd>↓</kbd> navigate <kbd>↵</kbd> open <kbd>K</kbd> known <kbd>L</kbd> learning <kbd>U</kbd> clear status <kbd>S</kbd> save <kbd>C</kbd> copy <kbd>/</kbd> search <kbd>Esc</kbd> clear search</div>
         <div class="table-wrap">
           <table>
             <thead><tr><th scope="col">WORD</th><th scope="col">TYPE</th><th scope="col" class="numeric">IN STORY</th><th scope="col" aria-label="Save"></th></tr></thead>
